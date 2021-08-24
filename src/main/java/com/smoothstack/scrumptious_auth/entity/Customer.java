@@ -1,40 +1,62 @@
 package com.smoothstack.scrumptious_auth.entity;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-//@Entity
-//@Data
-//@Table(name = "customer")
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "customer")
+@Builder
 public class Customer {
 
-/*
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false)
-	private Integer id;
+	@Column(name = "customerId", updatable = false)
+	private Integer customerId;
+	
+	@OneToOne
+	@JoinColumn(name = "userId", referencedColumnName = "userId")
+	private User user;
 	
 	@NotBlank
-	@Column(name = "username", nullable = false, unique = true)
-	private String username;
+	@Column(name = "firstName", nullable = false)
+	private String firstName;
 	
+	@NotBlank
+	@Column(name = "lastName", nullable = false)
+	private String lastName;
+	
+	@NotBlank
+	@Column(name = "phone", nullable = false)
+	private String phone;
+	
+	@NotBlank
+	@Column(name = "email", nullable = false)
 	private String email;
 	
-	private String password;
+	//@NotBlank
+	@Column(name = "dob")//, nullable = false)
+	private Date dob;
 	
-	private Timestamp createdAt;
-	
-	private Timestamp updatedAt;
-	*/
+	@Builder.Default
+	private Integer loyaltyPoints = 0;
 	
 }

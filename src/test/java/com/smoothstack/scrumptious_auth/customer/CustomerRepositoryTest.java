@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.smoothstack.scrumptious_auth.entity.User;
+import com.smoothstack.scrumptious_auth.repository.CustomerRepository;
 import com.smoothstack.scrumptious_auth.repository.UserRepository;
 
 @DataJpaTest
@@ -15,6 +16,9 @@ public class CustomerRepositoryTest {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private CustomerRepository customerRepo;
 	
 	@AfterEach
 	void tearDown() {
@@ -27,10 +31,27 @@ public class CustomerRepositoryTest {
 		String username = "customer";
 		User user = User.builder()
 				.username(username)
+				.password("pass")
+				.email("customer@gmail.com")
 				.build();
 		userRepo.save(user);
 		
 		User userFound = userRepo.findByUsername(username).get();
+		
+		assertEquals(user, userFound);
+	}
+	
+	@Test
+	void itShouldFindByEmail() {
+		String email = "customer@gmail.com";
+		User user = User.builder()
+				.username("customer")
+				.password("pass")
+				.email(email)
+				.build();
+		userRepo.save(user);
+		
+		User userFound = userRepo.findByEmail(email).get();
 		
 		assertEquals(user, userFound);
 	}

@@ -6,12 +6,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.smoothstack.scrumptious_auth.entity.Customer;
 import com.smoothstack.scrumptious_auth.entity.User;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
-    Optional<User> findByUsername(String userName);
-    
+public interface CustomerRepository extends JpaRepository<Customer, UUID> {
     Optional<User> findByEmail(String email);
 }

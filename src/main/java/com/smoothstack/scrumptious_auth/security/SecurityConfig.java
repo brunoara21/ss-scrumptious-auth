@@ -1,5 +1,6 @@
 package com.smoothstack.scrumptious_auth.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,8 +12,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailServiceImp userDetailServiceImp;
+    
+    @Autowired
+	private PasswordEncoder passwordEncoder;
 
   
 
@@ -42,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
-                .antMatchers("/accounts/registration/**").permitAll()
+                .antMatchers("/accounts/register/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/login").permitAll()
                 .antMatchers("/h2-console/*").permitAll()
 //                .antMatchers("/api/test/*").permitAll()
@@ -51,16 +53,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+	/*
+	 * @Bean PasswordEncoder passwordEncoder(){ return new BCryptPasswordEncoder();
+	 * }
+	 */
 
     @Bean
     DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder.bCryptPasswordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailServiceImp);
         return daoAuthenticationProvider;
     }
