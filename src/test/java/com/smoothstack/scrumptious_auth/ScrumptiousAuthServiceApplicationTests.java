@@ -1,10 +1,10 @@
-package com.smoothstack.ssfooddelauth;
+package com.smoothstack.scrumptious_auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FoodDeliveryAuthServiceApplicationTests {
+class ScrumptiousAuthServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
